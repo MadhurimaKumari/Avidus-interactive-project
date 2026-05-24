@@ -8,9 +8,13 @@ api.interceptors.request.use((config) => {
   const storedUser = localStorage.getItem('avidusUser');
 
   if (storedUser) {
-    const user = JSON.parse(storedUser);
-    if (user?.token) {
-      config.headers.Authorization = `Bearer ${user.token}`;
+    try {
+      const user = JSON.parse(storedUser);
+      if (user?.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    } catch {
+      localStorage.removeItem('avidusUser');
     }
   }
 
